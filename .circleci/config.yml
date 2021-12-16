@@ -26,7 +26,8 @@ jobs:
             gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
             gcloud --quiet container clusters get-credentials ${GOOGLE_CLUSTER_NAME}
             whoami
-            git clone https://github.com/Beknazar007/ambassador-circleci-gke-Install-services.git
+            mkdir beki
+            
             ls
             pwd 
 
