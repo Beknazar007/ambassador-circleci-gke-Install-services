@@ -28,8 +28,9 @@ jobs:
       - run: whoami
 
       - run: ls   
-      - run: rm -rf    ambassador-circleci-gke-Install-services
-
+      - run: |
+          rm -rf    ambassador-circleci-gke-Install-services
+          ls
 
 workflows:
   version: 2
