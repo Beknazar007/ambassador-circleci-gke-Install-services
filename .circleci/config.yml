@@ -21,7 +21,7 @@ jobs:
             gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
             gcloud --quiet container clusters get-credentials ${GOOGLE_CLUSTER_NAME}
       
-  
+   
       - run: 
           name: Install ambassador | cert-manager | external-dns | reloader
           command: git clone  https://github.com/Beknazar007/ambassador-circleci-gke-Install-services.git
