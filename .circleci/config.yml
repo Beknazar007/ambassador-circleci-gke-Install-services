@@ -19,9 +19,9 @@ jobs:
             echo $GCLOUD_SERVICE_KEY > ${HOME}/gcloud-service-key.json
             gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
             gcloud projects list 
-            gcloud --project=test iam service-accounts list --format=json. 
+            
             # gcloud --quiet config set project unified-chess-331509
-            # gcloud container clusters get-credentials cluster-1 --zone us-central1-c --project unified-chess-331509
+            gcloud container clusters get-credentials cluster-1 --zone us-central1-c --project unified-chess-331509
             # gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
             # gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
             # gcloud --quiet container clusters get-credentials ${GOOGLE_CLUSTER_NAME}
