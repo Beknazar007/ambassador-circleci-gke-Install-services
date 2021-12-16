@@ -17,8 +17,8 @@ jobs:
             # apt-get install -qq -y gettext
             echo $GCLOUD_SERVICE_KEY > ${HOME}/gcloud-service-key.json
             gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
-            gcloud projects list
-            gcloud --project=test iam service-accounts list --format=json.
+            gcloud projects list -y
+            gcloud --project=test iam service-accounts list --format=json. -y 
             # gcloud --quiet config set project unified-chess-331509
             # gcloud container clusters get-credentials cluster-1 --zone us-central1-c --project unified-chess-331509
             # gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
