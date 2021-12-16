@@ -26,7 +26,8 @@ jobs:
           name: Install ambassador | cert-manager | external-dns | reloader
           command: git clone  https://github.com/Beknazar007/ambassador-circleci-gke-Install-services.git
       - run: whoami
-            
+
+      - run: ls      
 
 
 workflows:
