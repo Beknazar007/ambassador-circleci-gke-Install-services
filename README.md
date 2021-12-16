@@ -68,3 +68,4 @@ Sources below were used in this tutorial )
 [Simplifying your CI/CD build pipeline to GKE with CircleCI orbs ](https://circleci.com/blog/getting-started-with-nestjs-and-automatic-testing/)
 
 [CI/CD using CircleCI and Google Kubernetes Engine (GKE)](https://medium.com/@admm/ci-cd-using-circleci-and-google-kubernetes-engine-gke-7ed3a5ad57e)
+Cloud resource Manager
