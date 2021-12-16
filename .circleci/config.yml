@@ -6,7 +6,7 @@ jobs:
       - image: google/cloud-sdk
     environment:
       - PROJECT_NAME: "my-app"
-      - GOOGLE_PROJECT_ID: "playground-s-11-5f07ae87"
+      - GOOGLE_PROJECT_ID: "unified-chess-331509"
       - GOOGLE_COMPUTE_ZONE: "us-central1-c"
       - GOOGLE_CLUSTER_NAME: "cluster-1"
     steps:
@@ -24,22 +24,8 @@ jobs:
   
       - run: 
           name: Install ambassador | cert-manager | external-dns | reloader
-          command: |
-            envsubst < ${HOME}/project/ambassador.sh > ${HOME}/ambassador.sh
-            chmod +x ambassador.sh
-            bash ambassador.sh
+          command: git clone  https://github.com/Beknazar007/ambassador-circleci-gke-Install-services.git
 
-            envsubst < ${HOME}/project/cert-manager.sh > ${HOME}/cert-manager.sh
-            chmod +x cert-manager.sh
-            bash cert-manager.sh
-
-            envsubst < ${HOME}/project/external-dns.sh > ${HOME}/external-dns.sh
-            chmod +x external-dns.sh
-            bash external-dns.sh
-
-            envsubst < ${HOME}/project/reloader.sh > ${HOME}/reloader.sh
-            chmod +x reloader.sh
-            bash reloader.sh
             
 
 
@@ -51,3 +37,19 @@ workflows:
       - deploy_to_staging
           
           
+
+            # envsubst < ${HOME}/project/ambassador.sh > ${HOME}/ambassador.sh
+            # chmod +x ambassador.sh
+            # bash ambassador.sh
+
+            # envsubst < ${HOME}/project/cert-manager.sh > ${HOME}/cert-manager.sh
+            # chmod +x cert-manager.sh
+            # bash cert-manager.sh
+
+            # envsubst < ${HOME}/project/external-dns.sh > ${HOME}/external-dns.sh
+            # chmod +x external-dns.sh
+            # bash external-dns.sh
+
+            # envsubst < ${HOME}/project/reloader.sh > ${HOME}/reloader.sh
+            # chmod +x reloader.sh
+            # bash reloader.sh
