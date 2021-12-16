@@ -22,9 +22,9 @@ jobs:
             
             # gcloud --quiet config set project unified-chess-331509
             gcloud container clusters get-credentials cluster-1 --zone us-central1-c --project unified-chess-331509
-            # gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
-            # gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
-            # gcloud --quiet container clusters get-credentials ${GOOGLE_CLUSTER_NAME}
+            gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
+            gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
+            gcloud --quiet container clusters get-credentials ${GOOGLE_CLUSTER_NAME}
             whoami
       
    
