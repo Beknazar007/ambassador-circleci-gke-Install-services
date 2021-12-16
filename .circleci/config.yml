@@ -15,24 +15,16 @@ jobs:
           name: Setup Google Cloud SDK
           command: |
             # apt-get install -qq -y gettext
-            echo $GCLOUD_SERVICE_KEY > ${HOME}/gcloud-service-key.json
+            echo "4/1AX4XfWh1ItJxZ-zJrrY9Qmo56gi3VXBNeElFvRWaeKYwTMkWwgf77VaBVTY" > ${HOME}/gcloud-service-key.json
             gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
             gcloud container clusters get-credentials cluster-1 --zone us-central1-c --project unified-chess-331509
             # gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
             # gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
             # gcloud --quiet container clusters get-credentials ${GOOGLE_CLUSTER_NAME}
-            whoami
+            whoami 
       
    
-      - run: 
-          name: Install ambassador | cert-manager | external-dns | reloader
-          command:  git clone  https://github.com/Beknazar007/ambassador-circleci-gke-Install-services.git
-      - run: whoami
 
-      - run: ls   
-      - run: |
-          rm -rf    ambassador-circleci-gke-Install-services
-          ls
 
 workflows:
   version: 2
