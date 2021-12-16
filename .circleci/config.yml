@@ -13,7 +13,8 @@ jobs:
       - checkout
       - run: 
           name: Setup Google Cloud SDK
-          command: |
+          command: | 
+          
             # apt-get install -qq -y gettext
             echo $GCLOUD_SERVICE_KEY > ${HOME}/gcloud-service-key.json
             gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
