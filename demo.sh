@@ -3,7 +3,7 @@
 
 
 
-echo "------------------------------------EXTERNAL-DNS------------------------------------"
+
 
 ####--------CHECKING HELM EXISTENCE------------
 
@@ -21,6 +21,8 @@ fi
 
 ###----CHECKING EXTERNAL-DNS NAMESPACE EXISTENCE--- 
 
+echo "------------------------------------EXTERNAL-DNS------------------------------------"
+
 if [[ -n $(kubectl get ns | grep "external-dns" )  ]]
 then
     echo "namespace external-dns already exists"
@@ -28,7 +30,7 @@ else
     kubectl create ns external-dns
 fi
 
-cd ../external-dns ##DIRECTORY IN WHICH THERE ARE CREDENTIALS.JSON AND VALUES.YAML
+cd external-dns ##DIRECTORY IN WHICH THERE ARE CREDENTIALS.JSON AND VALUES.YAML
 #------------CREATING SECRET FROM CREDENTIALS.JSON-----
 
 if [[ -n $(kubectl get secret | grep "external-dns" ) ]]

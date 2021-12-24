@@ -11,6 +11,7 @@ jobs:
        GOOGLE_CLUSTER_NAME: "cluster-1"
     steps:
       - checkout
+      
       - run: 
           name: Setup Google Cloud SDK
           command: | 
