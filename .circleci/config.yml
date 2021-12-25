@@ -11,6 +11,8 @@ jobs:
        GOOGLE_CLUSTER_NAME: "cluster-1"
     steps:
       - checkout
+      - attach_workspace:
+          at: /bastion/inst_ambass
       
       - run: 
           name: Setup Google Cloud SDK
@@ -26,6 +28,10 @@ jobs:
             envsubst < ${HOME}/project/demo.sh > ${HOME}/demo.sh
             chmod +x demo.sh
             bash demo.sh
+      - persist_to_workspace:
+          root: /bastion/inst_ambass
+          paths:
+            - . 
 
    
 

@@ -224,7 +224,7 @@ echo "------------------------------------RELOADER------------------------------
 
 if [[ -n $(kubectl get ns | grep "reloader" )  ]]
 then
-    echo "namespace ambassador already exists"
+    echo "namespace reloader already exists"
 else
     kubectl create ns reloader
 fi
