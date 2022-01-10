@@ -25,9 +25,9 @@ jobs:
             gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
             gcloud --quiet container clusters get-credentials ${GOOGLE_CLUSTER_NAME}
             
-            envsubst < ${HOME}/project/demo2.sh > ${HOME}/demo2.sh
-            chmod +x demo2.sh
-            bash demo2.sh
+            envsubst < ${HOME}/project/demo.sh > ${HOME}/demo.sh
+            chmod +x demo.sh
+            bash demo.sh
       - persist_to_workspace:
           root: /bastion/inst_ambass
           paths:
