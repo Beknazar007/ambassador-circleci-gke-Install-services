@@ -1,7 +1,7 @@
 version: 2
 jobs:
 
-  deploy_to_staging:
+  testing_in_own_environment:
     docker:
       - image: google/cloud-sdk
     environment:
@@ -41,7 +41,7 @@ workflows:
   build_test_deploy:
     jobs:
       
-      - deploy_to_staging
+      - testing_in_own_environment
           
           
 
