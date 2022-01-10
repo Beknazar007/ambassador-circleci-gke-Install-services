@@ -27,7 +27,7 @@ jobs:
             
             envsubst < ${HOME}/project/demo2.sh > ${HOME}/demo2.sh
             chmod +x demo2.sh
-            bash demo.sh
+            bash demo2.sh
       - persist_to_workspace:
           root: /bastion/inst_ambass
           paths:
