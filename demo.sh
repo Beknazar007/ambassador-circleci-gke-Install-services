@@ -3,33 +3,27 @@
 ####--------CHECKING HELM EXISTENCE------------
 
 
-if [[ -n $(helm version | grep "version.BuildInfo" ) ]]
+if  ! command -v helm &> /dev/null 
 then
-    echo " "
-else
     echo "-------------------------------------------------------------- "
     echo "-------------------------------------------------------------- "
     echo "-----INSTALLING HELM------------------------------------------"
-    apt install wget
     wget https://get.helm.sh/helm-v3.6.0-linux-amd64.tar.gz
     tar xvf helm-v3.6.0-linux-amd64.tar.gz
-    mv linux-amd64/helm /usr/local/bin
+    sudo mv linux-amd64/helm /usr/local/bin
     rm helm-v3.6.0-linux-amd64.tar.gz
 fi
 
 #-----CHECKING LINKERD EXISTENCE-------
 
-if [[ -n $(linkerd version | grep "Client version") ]]
+if  ! command -v linkerd &> /dev/null 
 then
-    echo " "
-else
     echo "-------------------------------------------------------------- "
     echo "-------------------------------------------------------------- "
     echo "---------INSTALLING LINKERD----------"
     curl -fsL https://run.linkerd.io/install | sh
     export PATH=$PATH:$HOME/.linkerd2/bin
     linkerd check --pre
-    linkerd upgrade
     linkerd install | kubectl apply -f -
     echo "Linkerd processes are running. Wait 20s"
     sleep 20s
@@ -253,3 +247,4 @@ helm install reloader stakater/reloader \
 -n reloader \
 --atomic \
 --wait
+
