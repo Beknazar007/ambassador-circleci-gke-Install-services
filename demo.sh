@@ -1,28 +1,52 @@
 #!/bin/bash
 
-
-
-
-
-
 ####--------CHECKING HELM EXISTENCE------------
+
 
 if [[ -n $(helm version | grep "version.BuildInfo" ) ]]
 then
     echo " "
 else
-    echo "-----INSTALLING HELM-------"
-    apt-get install wget
+    echo "-------------------------------------------------------------- "
+    echo "-------------------------------------------------------------- "
+    echo "-----INSTALLING HELM------------------------------------------"
     wget https://get.helm.sh/helm-v3.6.0-linux-amd64.tar.gz
     tar xvf helm-v3.6.0-linux-amd64.tar.gz
-    mv linux-amd64/helm /usr/local/bin
+    sudo mv linux-amd64/helm /usr/local/bin
     rm helm-v3.6.0-linux-amd64.tar.gz
 fi
 
+#-----CHECKING LINKERD EXISTENCE-------
+
+if [[ -n $(linkerd version | grep "Client version") ]]
+then
+    echo " "
+else
+    echo "-------------------------------------------------------------- "
+    echo "-------------------------------------------------------------- "
+    echo "---------INSTALLING LINKERD----------"
+    curl -fsL https://run.linkerd.io/install | sh
+    export PATH=$PATH:$HOME/.linkerd2/bin
+    linkerd check --pre
+    linkerd upgrade
+    linkerd install | kubectl apply -f -
+    echo "Linkerd processes are running. Wait 20s"
+    sleep 20s
+fi
+
+
+
+
+
+
+
+
 ###----CHECKING EXTERNAL-DNS NAMESPACE EXISTENCE--- 
 
-echo "------------------------------------EXTERNAL-DNS------------------------------------"
 
+echo "----------------------------------------------------------------------------------- "
+echo "-----------------------------------------------------------------------------------"
+echo "------------------------------------EXTERNAL-DNS------------------------------------"
 if [[ -n $(kubectl get ns | grep "external-dns" )  ]]
 then
     echo "namespace external-dns already exists"
@@ -31,9 +55,9 @@ else
 fi
 
 cd external-dns ##DIRECTORY IN WHICH THERE ARE CREDENTIALS.JSON AND VALUES.YAML
-#------------CREATING SECRET FROM CREDENTIALS.JSON-----
+#-----------CREATING SECRET FROM CREDENTIALS.JSON-----
 
-if [[ -n $(kubectl get secret | grep "external-dns" ) ]]
+if [[ -n $(kubectl get secret -n external-dns | grep "external-dns" ) ]]
 then
     echo "secret external-dns alreay exists"
 else
@@ -70,22 +94,12 @@ else
     --wait 
 fi
 
-#-----CHECKING LINKERD EXISTENCE-------
 
-if [[ -n $(linkerd version | grep "Client version") ]]
-then
-    echo " "
-else
-    echo "---------INSTALLING LINKERD----------"
-    curl -fsL https://run.linkerd.io/install | sh
-    export PATH=$PATH:$HOME/.linkerd2/bin
-    linkerd check --pre
-    linkerd install | kubectl apply -f -
-    echo "Linkerd processes are running. Wait 10s"
-    sleep 10s
-fi
 
-echo "----ANNOTATING WITH LINKERD-----------------------"
+echo "-------------------------------------------------------------- "
+echo "-------------------------------------------------------------- "
+echo "----ANNOTATING WITH LINKERD------------------------------------"
+export PATH=$PATH:$HOME/.linkerd2/bin
 kubectl get deploy -o yaml external-dns  -n external-dns | linkerd inject - | kubectl apply -f -
 
 
@@ -95,7 +109,8 @@ kubectl get deploy -o yaml external-dns  -n external-dns | linkerd inject - | ku
 
 
 
-
+echo "-------------------------------------------------------------- ---------------------"
+echo "----------------------------------------------------------------------------------- "
 echo "------------------------------------CERT-MANAGER------------------------------------"
 
 
@@ -114,7 +129,7 @@ fi
 cd ../cert-manager ##DIRECTORY IN WHICH THERE ARE CREDENTIALS.JSON AND VALUES.YAML
 #------------CREATING SECRET FROM CREDENTIALS.JSON-----
 
-if [[-n $(kubectl get secret | grep "prod-cert-manager" ) ]]
+if [[ -n $(kubectl get secret -n cert-manager | grep "prod-cert-manager" ) ]]
 then
     echo "secret prod-cert-manager alreay exists"
 else
@@ -141,21 +156,12 @@ helm upgrade --install cert-manager jetstack/cert-manager --namespace cert-manag
 
 #-----CHECKING LINKERD EXISTENCE-------
 
-if [[ -n $(linkerd version | grep "Client version") ]]
-then
-    echo " "
-else
-    echo "---------INSTALLING LINKERD----------"
-    curl -fsL https://run.linkerd.io/install | sh
-    export PATH=$PATH:$HOME/.linkerd2/bin
-    linkerd check --pre
-    linkerd install | kubectl apply -f -
-    echo "Linkerd processes are running. Wait 10s"
-    sleep 10s
-fi
 
+echo "-------------------------------------------------------------- "
+echo "-------------------------------------------------------------- "
 echo "----ANNOTATING WITH LINKERD-----------------------"
-kubectl get deploy -o yaml -c cert-manager | linkerd inject - | kubectl apply -f -
+export PATH=$PATH:$HOME/.linkerd2/bin
+kubectl get deploy -o yaml -n cert-manager | linkerd inject - | kubectl apply -f -
 
 
 kubectl apply -n cert-manager -f clusterissuer-staging.yaml 
@@ -167,8 +173,8 @@ kubectl apply -n cert-manager -f clusterissuer-prod.yaml
 
 
 
-
-
+echo "-------------------------------------------------------------- "
+echo "-------------------------------------------------------------- "
 echo "------------------------------------AMBASSADOR------------------------------------"
 
 
@@ -198,7 +204,7 @@ else
     helm repo add datawire https://www.getambassador.io 
 fi
 #-----HELM INSTALLING AND UPGRADING PART----
-cd ambassador-aes1
+cd ../ambassador-aes1
 
 helm repo update
 helm upgrade --install ambassador-aes1 datawire/ambassador -n ambassador \
@@ -213,7 +219,8 @@ kubectl apply -f global.yaml -f tls.yaml
 
 
 
-
+echo "-------------------------------------------------------------- "
+echo "-------------------------------------------------------------- "
 echo "------------------------------------RELOADER------------------------------------"
 
 
@@ -224,7 +231,7 @@ echo "------------------------------------RELOADER------------------------------
 
 if [[ -n $(kubectl get ns | grep "reloader" )  ]]
 then
-    echo "namespace reloader already exists"
+    echo "namespace ambassador already exists"
 else
     kubectl create ns reloader
 fi
